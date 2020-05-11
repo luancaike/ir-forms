@@ -4,22 +4,49 @@
       <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
         <input
-          [class.is-invalid]="profileForm.invalid && (profileForm.dirty || profileForm.touched)"
-          type="email" class="form-control" formControlName="username" id="exampleInputEmail1" required
-          placeholder="Enter email">
-        <ir-input-validator [formChild]="profileForm.controls['username']"></ir-input-validator>
+          [class.is-invalid]="
+            profileForm.invalid && (profileForm.dirty || profileForm.touched)
+          "
+          type="email"
+          class="form-control"
+          formControlName="username"
+          id="exampleInputEmail1"
+          required
+          placeholder="Enter email"
+        />
+        <ir-input-validator
+          [formChild]="profileForm.controls['username']"
+        ></ir-input-validator>
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" formControlName="password" id="exampleInputPassword1">
-        <ir-input-validator [formChild]="profileForm.controls['password']"></ir-input-validator>
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          id="exampleInputPassword1"
+        />
+        <ir-input-validator
+          [formChild]="profileForm.controls['password']"
+        ></ir-input-validator>
       </div>
       <div class="form-check">
         <input
-          [class.is-invalid]="profileForm.controls['savelogin'].invalid && (profileForm.controls['savelogin'].dirty || profileForm.controls['savelogin'].touched) && profileForm.controls['savelogin'].errors"
-          type="checkbox" formControlName="savelogin" class="form-check-input" id="exampleCheck1">
+          [class.is-invalid]="
+            profileForm.controls['savelogin'].invalid &&
+            (profileForm.controls['savelogin'].dirty ||
+              profileForm.controls['savelogin'].touched) &&
+            profileForm.controls['savelogin'].errors
+          "
+          type="checkbox"
+          formControlName="savelogin"
+          class="form-check-input"
+          id="exampleCheck1"
+        />
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        <ir-input-validator [formChild]="profileForm.controls['savelogin']"></ir-input-validator>
+        <ir-input-validator
+          [formChild]="profileForm.controls['savelogin']"
+        ></ir-input-validator>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
