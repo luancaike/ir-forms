@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "forms-generator": {
@@ -8,7 +8,7 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "ir",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "forms-generator"
+    }
+  },
+  "defaultProject": "forms-generator",
+  "cli": {
+    "analytics": "338ed4e3-0e16-4e24-b1c1-a758c13935a7"
+  }
 }
