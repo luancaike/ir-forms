@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import {
   ConfigWrapperService,
   UserServiceConfig,
-} from '../../services/config-wrapper.service';
+} from '../services/config-wrapper.service';
 import { IrFormComponent } from '../components/form/ir-form.component';
 import { FormFieldComponent } from '../components/form/form-field.component';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';

@@ -1,0 +1,22 @@
+{
+  "name": "ir-forms",
+  "version": "1.0.0",
+  "license": "MIT",
+  "homepage": "https://github.com/luancaike/ir-forms#readme",
+  "description": "",
+  "keywords": ["angular", "forms", "ng-formly", "ngx-formly", "formly", "angular 2", "angular 2 forms", "json forms", "form library", "dynamic-forms"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luancaike/ir-forms.git"
+  },
+  "bugs": {
+    "url": "https://github.com/luancaike/ir-forms/issues"
+  },
+  "dependencies": {
+    "tslib": "^1.7.1"
+  },
+  "peerDependencies": {
+    "@angular/forms": ">=7.0.0",
+    "rxjs": ">=6.3.0"
+  }
+}
