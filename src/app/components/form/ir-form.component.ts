@@ -72,7 +72,8 @@ export class IrFormComponent implements AfterViewInit, OnChanges {
         required: true,
         label: 'Email',
         selectOptions: { keyName: 'teste', data: [] },
-        colClasslist: ['col-6'],
+        onChange: console.log,
+        colClasslist: ['col-2'],
       },
     ];
     this.MountForm();
@@ -113,7 +114,6 @@ export class IrFormComponent implements AfterViewInit, OnChanges {
   }
 
   onSubmit(): void {
-    // TODO: Use EventEmitter with form value
     this.config[2].selectOptions.data.push({ teste: 'a' });
   }
   GetModel(): void {

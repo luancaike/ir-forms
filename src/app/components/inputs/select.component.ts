@@ -1,12 +1,5 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { IrFormConfig } from '../form/ir-form.model';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { IrBaseComponents } from './components.base';
 
 @Component({
   selector: 'ir-text-input',
@@ -37,9 +30,8 @@ import { IrFormConfig } from '../form/ir-form.model';
   `,
   styles: [],
 })
-export class IrSelectComponent implements OnChanges, OnInit {
-  @Input() formRoot: FormGroup;
-  @Input() options: IrFormConfig;
+export class IrSelectComponent extends IrBaseComponents
+  implements OnChanges, OnInit {
   optionsData = [];
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.options) {
@@ -48,7 +40,9 @@ export class IrSelectComponent implements OnChanges, OnInit {
     }
   }
   ngOnInit(): void {
+    console.log(this.formRoot);
     this.UpdateOptionsData();
+    this.ObserverValue();
   }
   UpdateOptionsData(): void {
     if (

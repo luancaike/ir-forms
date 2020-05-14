@@ -1,6 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { IrFormConfig } from '../form/ir-form.model';
+import { Component } from '@angular/core';
+import { IrBaseComponents } from './components.base';
 
 @Component({
   selector: 'ir-text-input',
@@ -29,7 +28,4 @@ import { IrFormConfig } from '../form/ir-form.model';
   `,
   styles: [],
 })
-export class IrTextInputComponent {
-  @Input() formRoot: FormGroup;
-  @Input() options: IrFormConfig;
-}
+export class IrTextInputComponent extends IrBaseComponents {}
