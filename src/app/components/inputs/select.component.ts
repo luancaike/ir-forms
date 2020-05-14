@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { IrFormConfig } from '../form/ir-form.model';
 
@@ -8,19 +14,21 @@ import { IrFormConfig } from '../form/ir-form.model';
     <ng-template [ngIf]="formRoot">
       <div class="form-group" [formGroup]="formRoot">
         <label [for]="options.key">{{ options.label || '' }}</label>
-        <input
+        <select
           [class.is-invalid]="
             formRoot.controls[options.key].invalid &&
             (formRoot.controls[options.key].dirty ||
               formRoot.controls[options.key].touched)
           "
-          [type]="options.typeInput"
           class="form-control"
           [formControlName]="options.key"
           [id]="options.key"
-          [placeholder]="options.placeholder || ''"
           [attr.disabled]="options.disabled ? '' : null"
-        />
+        >
+          <option *ngFor="let item of optionsData" [ngValue]="item">
+            {{ item[options.selectOptions.keyName || 'name'] }}
+          </option>
+        </select>
         <ir-input-validator
           [formChild]="formRoot.controls[options.key]"
         ></ir-input-validator>
@@ -29,7 +37,25 @@ import { IrFormConfig } from '../form/ir-form.model';
   `,
   styles: [],
 })
-export class IrTextInputComponent {
+export class IrSelectComponent implements OnChanges, OnInit {
   @Input() formRoot: FormGroup;
   @Input() options: IrFormConfig;
+  optionsData = [];
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.options) {
+      console.log(this.options);
+      this.UpdateOptionsData();
+    }
+  }
+  ngOnInit(): void {
+    this.UpdateOptionsData();
+  }
+  UpdateOptionsData(): void {
+    if (
+      this.options.selectOptions &&
+      Array.isArray(this.options.selectOptions.data)
+    ) {
+      this.optionsData = this.options.selectOptions.data;
+    }
+  }
 }

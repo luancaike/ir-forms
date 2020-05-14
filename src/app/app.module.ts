@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { InputValidatorComponent } from './components/validator/input-validator.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CoreModule } from './core/core.module';
-import { TextInputComponent } from './components/inputs/text-input.component';
+import { IrTextInputComponent } from './components/inputs/text-input.component';
 import { UserServiceConfig } from '../services/config-wrapper.service';
+import { IrSelectComponent } from './components/inputs/select.component';
 
 export const wrapper: UserServiceConfig = {
-  wrapper: [{ key: 'text-input', component: TextInputComponent }],
+  wrapper: [
+    { key: 'text-input', component: IrTextInputComponent },
+    { key: 'select', component: IrSelectComponent },
+  ],
 };
 
 @NgModule({
