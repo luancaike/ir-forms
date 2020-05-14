@@ -11,7 +11,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { IrFormConfig } from './ir-form.model';
+import { IrFormConfig } from './form.model';
 import { interval } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 
@@ -40,7 +40,7 @@ import { debounce } from 'rxjs/operators';
   styles: [],
   providers: [FormBuilder],
 })
-export class IrFormComponent implements AfterViewInit, OnChanges {
+export class FormComponent implements AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.config) {
       console.log(changes);

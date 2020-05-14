@@ -17,11 +17,21 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "teste": [
+        "dist/teste/teste",
+        "dist/teste"
+      ],
+      "ir-forms": [
+        "dist/ir-forms/ir-forms",
+        "dist/ir-forms"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableIvy": false
+    "enableIvy": true
   }
 }

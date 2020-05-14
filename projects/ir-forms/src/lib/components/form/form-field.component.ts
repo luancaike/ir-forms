@@ -6,9 +6,9 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ConfigWrapperService } from '../../services/config-wrapper.service';
+import { ConfigWrapperService } from '../../services';
 import { FormGroup } from '@angular/forms';
-import { IrFormConfig } from './ir-form.model';
+import { IrFormConfig } from './form.model';
 
 @Component({
   selector: 'ir-form-field',

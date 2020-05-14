@@ -4,37 +4,37 @@
   "newProjectRoot": "projects",
   "projects": {
     "ir-forms": {
-      "root": "src/ir-forms",
-      "sourceRoot": "src/ir-forms",
       "projectType": "library",
+      "root": "projects/ir-forms",
+      "sourceRoot": "projects/ir-forms/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "tsconfig.app.json",
-            "project": "src/ir-forms/ng-package.json"
+            "tsConfig": "projects/ir-forms/tsconfig.lib.json",
+            "project": "projects/ir-forms/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "src/ir-forms/ng-package.prod.json"
+              "tsConfig": "projects/ir-forms/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/core/src/test.ts",
-            "tsConfig": "src/core/tsconfig.spec.json",
-            "karmaConfig": "src/core/karma.conf.js"
+            "main": "projects/ir-forms/src/test.ts",
+            "tsConfig": "projects/ir-forms/tsconfig.spec.json",
+            "karmaConfig": "projects/ir-forms/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/core/tsconfig.app.json",
-              "src/core/tsconfig.spec.json"
+              "projects/ir-forms/tsconfig.lib.json",
+              "projects/ir-forms/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
