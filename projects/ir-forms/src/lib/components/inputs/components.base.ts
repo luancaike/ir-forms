@@ -1,8 +1,8 @@
 import { Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { IrFormConfig } from '../form/form.model';
-import { debounce } from 'rxjs/operators';
 import { interval } from 'rxjs';
+import { debounce } from 'rxjs/operators';
+import { IrFormConfig } from '../form/form.model';
 
 export interface IrComponents {
   ObserverValue(): void;

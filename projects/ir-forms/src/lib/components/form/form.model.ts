@@ -12,6 +12,7 @@ export interface IrFormConfig {
   minLengh?: number;
   max?: number;
   min?: number;
+  rows?: number | string;
   onChange?: Function;
 }
 export interface IrSelectOptionsConfig {
