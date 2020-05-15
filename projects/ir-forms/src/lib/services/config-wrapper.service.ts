@@ -1,6 +1,7 @@
 import { Injectable, Optional } from '@angular/core';
-import { IrTextInputComponent } from '../components/inputs/text-input.component';
+import { IrTextAreaComponent } from '../components/inputs/text-area.component';
 import { IrSelectComponent } from '../components/inputs/select.component';
+import { IrTextInputComponent } from '../components/inputs/text-input.component';
 
 export class UserServiceConfig {
   wrapper: any[];
@@ -11,7 +12,8 @@ export class UserServiceConfig {
 })
 export class ConfigWrapperService {
   public wrapper = [
-    { key: 'text-input', component: IrTextInputComponent },
+    { key: 'textinput', component: IrTextInputComponent },
+    { key: 'textarea', component: IrTextAreaComponent },
     { key: 'select', component: IrSelectComponent },
   ];
   constructor(@Optional() config?: UserServiceConfig) {
