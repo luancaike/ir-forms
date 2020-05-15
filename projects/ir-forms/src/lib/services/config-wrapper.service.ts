@@ -1,6 +1,6 @@
 import { Injectable, Optional } from '@angular/core';
-import { IrTextInputComponent } from '../components';
-import { IrSelectComponent } from '../components';
+import { IrTextInputComponent } from '../components/inputs/text-input.component';
+import { IrSelectComponent } from '../components/inputs/select.component';
 
 export class UserServiceConfig {
   wrapper: any[];

@@ -6,7 +6,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ConfigWrapperService } from '../../services';
+import { ConfigWrapperService } from '../../services/config-wrapper.service';
 import { FormGroup } from '@angular/forms';
 import { IrFormConfig } from './form.model';
 

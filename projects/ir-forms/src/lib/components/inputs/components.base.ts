@@ -1,6 +1,6 @@
 import { Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { IrFormConfig } from '..';
+import { IrFormConfig } from '../form/form.model';
 import { debounce } from 'rxjs/operators';
 import { interval } from 'rxjs';
 
