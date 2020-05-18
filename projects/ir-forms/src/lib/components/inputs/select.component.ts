@@ -6,7 +6,9 @@ import { IrBaseComponents } from './components.base';
   template: `
     <ng-template [ngIf]="formRoot">
       <div class="form-group" [formGroup]="formRoot">
-        <label [for]="options.key">{{ options.label || '' }}</label>
+        <label [for]="options.key">{{
+          options.fieldOptions.label || ''
+        }}</label>
         <select
           [class.is-invalid]="
             formRoot.controls[options.key].invalid &&
@@ -16,7 +18,7 @@ import { IrBaseComponents } from './components.base';
           class="form-control"
           [formControlName]="options.key"
           [id]="options.key"
-          [attr.disabled]="options.disabled ? '' : null"
+          [attr.disabled]="options.fieldOptions.disabled ? '' : null"
         >
           <option *ngFor="let item of optionsData" [ngValue]="item">
             {{ item[options.selectOptions.keyName || 'name'] }}

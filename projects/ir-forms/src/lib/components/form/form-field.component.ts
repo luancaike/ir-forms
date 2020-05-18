@@ -9,7 +9,6 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ConfigWrapperService } from '../../services/config-wrapper.service';
 import { IrFormConfig } from './form.model';
 
 @Component({
@@ -23,12 +22,7 @@ export class FormFieldComponent implements OnInit, OnChanges {
   @ViewChild('container', { read: ViewContainerRef, static: true })
   container: ViewContainerRef;
 
-  constructor(
-    private configForms: ConfigWrapperService,
-    private resolver: ComponentFactoryResolver
-  ) {
-    console.log(configForms);
-  }
+  constructor(private resolver: ComponentFactoryResolver) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.options) {
@@ -41,24 +35,15 @@ export class FormFieldComponent implements OnInit, OnChanges {
   }
 
   MountInput() {
-    if (this.renderPremission()) {
-      this.container.clear();
-      const factory = this.configForms.wrapper.find(
-        (el) => el.key === this.options.type
-      );
-      if (!factory) {
-        return;
-      }
-      const resolver = this.resolver.resolveComponentFactory(factory.component);
+    this.container.clear();
 
-      const componentFactory = this.container.createComponent(resolver);
-      const component: any = componentFactory.instance;
-      component.options = this.options;
-      component.formRoot = this.form;
-    }
-  }
+    const resolver = this.resolver.resolveComponentFactory(
+      this.options.component
+    );
 
-  renderPremission(): boolean {
-    return !!this.form.controls[this.options.key];
+    const componentFactory = this.container.createComponent(resolver);
+    const component: any = componentFactory.instance;
+    component.options = this.options;
+    component.formRoot = this.form;
   }
 }

@@ -6,19 +6,17 @@ import { IrBaseComponents } from './components.base';
   template: `
     <ng-template [ngIf]="formRoot">
       <div class="form-group" [formGroup]="formRoot">
-        <label [for]="options.key">{{ options.label || '' }}</label>
+        <label [for]="options.key">{{
+          options.fieldOptions.label || ''
+        }}</label>
         <input
-          [class.is-invalid]="
-            formRoot.controls[options.key].invalid &&
-            (formRoot.controls[options.key].dirty ||
-              formRoot.controls[options.key].touched)
-          "
-          [type]="options.typeInput"
+          [class.is-invalid]="CheckIsInvalid()"
+          [type]="options.fieldOptions.typeInput"
           class="form-control"
           [formControlName]="options.key"
           [id]="options.key"
-          [placeholder]="options.placeholder || ''"
-          [attr.disabled]="options.disabled ? '' : null"
+          [placeholder]="options.fieldOptions.placeholder || ''"
+          [attr.disabled]="options.fieldOptions.disabled ? '' : null"
         />
         <ir-input-validator
           [formChild]="formRoot.controls[options.key]"

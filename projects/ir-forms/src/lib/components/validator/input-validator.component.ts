@@ -4,13 +4,7 @@ import { AbstractControl } from '@angular/forms';
 @Component({
   selector: 'ir-input-validator',
   template: `
-    <div
-      *ngIf="
-        formChild.invalid &&
-        (formChild.dirty || formChild.touched) &&
-        formChild.errors
-      "
-    >
+    <div *ngIf="ShowValidator()">
       <div class="invalid-input" *ngIf="formChild.hasError('required')">
         Campo Obrigatorio
       </div>
@@ -37,4 +31,13 @@ export class InputValidatorComponent {
   @Input() formChild: AbstractControl;
 
   constructor(public viewContainerRef: ViewContainerRef) {}
+
+  ShowValidator(): boolean {
+    return !!(
+      this.formChild &&
+      this.formChild.invalid &&
+      this.formChild.errors &&
+      (this.formChild.dirty || this.formChild.touched)
+    );
+  }
 }

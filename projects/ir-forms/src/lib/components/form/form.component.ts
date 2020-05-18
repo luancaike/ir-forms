@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,19 +13,17 @@ import { IrFormConfig } from './form.model';
   selector: 'ir-forms',
   template: `
     <form *ngIf="this.form" [formGroup]="form">
-      <div class="row">
-        <ng-container *ngFor="let field of _fields">
-          <div [classList]="field.colClasslist || ['col-12']">
-            <ir-form-field [options]="field" [form]="form"></ir-form-field>
-          </div>
-        </ng-container>
-      </div>
+      <ng-container *ngFor="let field of _fields">
+        <div [classList]="field.colClasslist || ['col-12']">
+          <ir-form-field [options]="field" [form]="form"></ir-form-field>
+        </div>
+      </ng-container>
     </form>
   `,
   styles: [],
   providers: [FormBuilder],
 })
-export class FormComponent implements AfterViewInit, OnChanges {
+export class FormComponent implements OnChanges {
   @Input()
   form: FormGroup;
 
@@ -43,48 +35,53 @@ export class FormComponent implements AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.fields) {
+      console.log('changes', changes);
+      this.MountForm();
     }
-  }
-
-  ngAfterViewInit(): void {
-    this.MountForm();
   }
 
   MountForm(): void {
     this.form = this.form || new FormGroup({});
-    this.fields.forEach((field) => {
-      this.form.addControl(
-        field.key,
-        this.fb.control('', this.GetValidatorns(field))
-      );
-    });
-    this._fields = this.fields;
+    this.FieldsToFormControls(this.fields);
+    this._fields = this.fields.filter((el) => el.component !== undefined);
     this.form.valueChanges
       .pipe(debounce(() => interval(1000)))
       .subscribe((rsp) => console.log(rsp));
   }
 
-  GetValidatorns(fields: IrFormConfig): ValidatorFn[] {
-    const validators = [];
-    if (fields.required) {
-      validators.push(Validators.required);
-    }
-    if (fields.maxLengh >= 0) {
-      validators.push(Validators.maxLength(fields.maxLengh));
-    }
-    if (fields.minLengh >= 0) {
-      validators.push(Validators.minLength(fields.minLengh));
-    }
-    if (fields.max >= 0) {
-      validators.push(Validators.max(fields.max));
-    }
-    if (fields.min >= 0) {
-      validators.push(Validators.min(fields.min));
-    }
-    return validators;
+  FieldsToFormControls(fields: IrFormConfig[]) {
+    fields.forEach((field) => {
+      if (field.key && !this.form.controls[field.key]) {
+        this.form.addControl(
+          field.key,
+          this.fb.control('', this.GetValidatorns(field))
+        );
+      }
+      if (field.children) {
+        this.FieldsToFormControls(field.children);
+      }
+    });
   }
 
-  GetModel(): void {
-    console.log(this.form.getRawValue());
+  GetValidatorns(fields: IrFormConfig): ValidatorFn[] {
+    const validators = [];
+    if (fields.fieldOptions) {
+      if (fields.fieldOptions.required) {
+        validators.push(Validators.required);
+      }
+      if (fields.fieldOptions.maxLengh >= 0) {
+        validators.push(Validators.maxLength(fields.fieldOptions.maxLengh));
+      }
+      if (fields.fieldOptions.minLengh >= 0) {
+        validators.push(Validators.minLength(fields.fieldOptions.minLengh));
+      }
+      if (fields.fieldOptions.max >= 0) {
+        validators.push(Validators.max(fields.fieldOptions.max));
+      }
+      if (fields.fieldOptions.min >= 0) {
+        validators.push(Validators.min(fields.fieldOptions.min));
+      }
+    }
+    return validators;
   }
 }

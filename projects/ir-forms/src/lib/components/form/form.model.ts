@@ -1,8 +1,16 @@
+import { IrComponents } from '../inputs/components.base';
+
 export interface IrFormConfig {
-  type: string;
-  key: string;
+  key?: string;
+  component?: new () => IrComponents;
   colClasslist?: string[];
+  fieldData?: any;
+  children?: IrFormConfig[];
   selectOptions?: IrSelectOptionsConfig;
+  fieldOptions?: IrFieldOptions;
+  onChange?: Function;
+}
+export interface IrFieldOptions {
   label?: string;
   typeInput?: string;
   placeholder?: string;
@@ -13,7 +21,6 @@ export interface IrFormConfig {
   max?: number;
   min?: number;
   rows?: number | string;
-  onChange?: Function;
 }
 export interface IrSelectOptionsConfig {
   keyId?: number;
