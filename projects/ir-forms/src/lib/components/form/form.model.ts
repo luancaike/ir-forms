@@ -2,9 +2,11 @@ import { IrComponents } from '../inputs/components.base';
 
 export interface IrFormConfig {
   key?: string;
+  value?: any;
+  hidden?: boolean;
   component?: new () => IrComponents;
+  instance?: IrComponents;
   colClasslist?: string[];
-  fieldData?: any;
   children?: IrFormConfig[];
   selectOptions?: IrSelectOptionsConfig;
   fieldOptions?: IrFieldOptions;
@@ -24,6 +26,7 @@ export interface IrFieldOptions {
 }
 export interface IrSelectOptionsConfig {
   keyId?: number;
-  keyName?: string;
+  keyText?: string;
+  keyValue?: string;
   data?: object[];
 }
