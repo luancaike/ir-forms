@@ -1,12 +1,16 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { IrBaseComponents } from './components.base';
 
 @Component({
-  selector: 'ir-text-input',
+  selector: 'ir-row',
   template: `
     <div class="row">
       <ng-container *ngFor="let field of options.children">
-        <div [classList]="field.colClasslist || ['col-12']">
+        <div
+          *ngIf="!field.hidden"
+          [classList]="field.colClasslist || ['col-12']"
+        >
           <ir-form-field [form]="formRoot" [options]="field"> </ir-form-field>
         </div>
       </ng-container>

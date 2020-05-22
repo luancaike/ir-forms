@@ -1,8 +1,8 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IrBaseComponents } from './components.base';
 
 @Component({
-  selector: 'ir-text-input',
+  selector: 'ir-select-input',
   template: `
     <ng-template [ngIf]="formRoot">
       <div class="form-group" [formGroup]="formRoot">
@@ -11,47 +11,43 @@ import { IrBaseComponents } from './components.base';
         }}</label>
         <select
           [class.is-invalid]="
-            formRoot.controls[options.key].invalid &&
-            (formRoot.controls[options.key].dirty ||
-              formRoot.controls[options.key].touched)
+            formRoot.get(options.key).invalid &&
+            (formRoot.get(options.key).dirty ||
+              formRoot.get(options.key).touched)
           "
-          class="form-control"
+          class="form-control form-control-lg"
           [formControlName]="options.key"
           [id]="options.key"
           [attr.disabled]="options.fieldOptions.disabled ? '' : null"
         >
-          <option *ngFor="let item of optionsData" [ngValue]="item">
-            {{ item[options.selectOptions.keyName || 'name'] }}
+          <option value="" disabled selected>Selecione uma Opção</option>
+          <option
+            *ngFor="let item of optionsData"
+            [ngValue]="
+              options.selectOptions.keyValue
+                ? item[options.selectOptions.keyValue]
+                : item['id']
+                ? item['id']
+                : item
+            "
+          >
+            {{ item[options.selectOptions.keyText || 'text'] }}
           </option>
         </select>
         <ir-input-validator
-          [formChild]="formRoot.controls[options.key]"
+          [formChild]="formRoot.get(options.key)"
         ></ir-input-validator>
       </div>
     </ng-template>
   `,
   styles: [],
 })
-export class IrSelectComponent extends IrBaseComponents
-  implements OnChanges, OnInit {
-  optionsData = [];
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.options) {
-      console.log(this.options);
-      this.UpdateOptionsData();
-    }
+export class IrSelectComponent extends IrBaseComponents implements OnInit {
+  get optionsData(): any[] {
+    return this.options.selectOptions.data || [];
   }
+
   ngOnInit(): void {
-    console.log(this.formRoot);
-    this.UpdateOptionsData();
     this.ObserverValue();
-  }
-  UpdateOptionsData(): void {
-    if (
-      this.options.selectOptions &&
-      Array.isArray(this.options.selectOptions.data)
-    ) {
-      this.optionsData = this.options.selectOptions.data;
-    }
   }
 }

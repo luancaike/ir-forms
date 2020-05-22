@@ -11,7 +11,7 @@ import { IrBaseComponents } from './components.base';
         }}</label>
         <textarea
           [class.is-invalid]="CheckIsInvalid()"
-          [rows]="options.fieldOptions.rows || 3"
+          [rows]="options.fieldOptions.rows || 5"
           class="form-control"
           [formControlName]="options.key || null"
           [id]="options.key"
@@ -19,7 +19,7 @@ import { IrBaseComponents } from './components.base';
           [attr.disabled]="options.fieldOptions.disabled ? '' : null"
         ></textarea>
         <ir-input-validator
-          [formChild]="formRoot.controls[options.key]"
+          [formChild]="formRoot.get(options.key)"
         ></ir-input-validator>
       </div>
     </ng-template>

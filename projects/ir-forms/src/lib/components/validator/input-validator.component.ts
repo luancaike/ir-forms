@@ -20,7 +20,7 @@ import { AbstractControl } from '@angular/forms';
     `
       div.invalid-input {
         margin-left: 10px;
-        font-size: 12px;
+        font-size: 10px;
         font-weight: 400;
         color: red;
       }
