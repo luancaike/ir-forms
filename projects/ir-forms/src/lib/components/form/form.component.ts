@@ -1,20 +1,22 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { interval } from 'rxjs';
-import { debounce } from 'rxjs/operators';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IrFormConfig } from './form.model';
 
 @Component({
   selector: 'ir-forms',
   template: `
     <form *ngIf="this.form" [formGroup]="form">
-      <ng-container *ngFor="let field of _fields">
-        <div [classList]="field.colClasslist || ['col-12']">
+      <ng-container *ngFor="let field of fields">
+        <div
+          *ngIf="!field.hidden"
+          [classList]="field.colClasslist || ['col-12']"
+        >
           <ir-form-field [options]="field" [form]="form"></ir-form-field>
         </div>
       </ng-container>
@@ -24,18 +26,24 @@ import { IrFormConfig } from './form.model';
   providers: [FormBuilder],
 })
 export class FormComponent implements OnChanges {
+  _fields: IrFormConfig[] = [];
+
   @Input()
   form: FormGroup;
 
-  @Input() fields: IrFormConfig[] = [];
+  @Input()
+  get fields(): IrFormConfig[] {
+    return this._fields || [];
+  }
 
-  _fields: IrFormConfig[] = [];
+  set fields(value: IrFormConfig[]) {
+    this._fields = value;
+  }
 
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.fields) {
-      console.log('changes', changes);
       this.MountForm();
     }
   }
@@ -43,24 +51,39 @@ export class FormComponent implements OnChanges {
   MountForm(): void {
     this.form = this.form || new FormGroup({});
     this.FieldsToFormControls(this.fields);
-    this._fields = this.fields.filter((el) => el.component !== undefined);
-    this.form.valueChanges
-      .pipe(debounce(() => interval(1000)))
-      .subscribe((rsp) => console.log(rsp));
   }
 
-  FieldsToFormControls(fields: IrFormConfig[]) {
+  FieldsToFormControls(fields: IrFormConfig[]): void {
     fields.forEach((field) => {
       if (field.key && !this.form.controls[field.key]) {
         this.form.addControl(
           field.key,
-          this.fb.control('', this.GetValidatorns(field))
+          this.fb.control(field.value || '', this.GetValidatorns(field))
         );
       }
       if (field.children) {
         this.FieldsToFormControls(field.children);
       }
     });
+  }
+
+  public getFieldByKey(key: string): IrFormConfig | null {
+    let fieldFind = null;
+    const selectByKey = (field: IrFormConfig[]): IrFormConfig | null =>
+      field.find((fl) => {
+        if (fl.key === key) {
+          fieldFind = fl;
+        }
+        if (fl.children) {
+          return !!selectByKey(fl.children);
+        }
+      });
+    selectByKey(this.fields);
+    return fieldFind;
+  }
+
+  public getFormControlByKey(key: string): AbstractControl {
+    return this.form.get(key);
   }
 
   GetValidatorns(fields: IrFormConfig): ValidatorFn[] {
