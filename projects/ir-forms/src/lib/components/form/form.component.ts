@@ -1,11 +1,6 @@
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { IrFormConfig } from './form.model';
 
 @Component({
@@ -26,11 +21,6 @@ import { IrFormConfig } from './form.model';
   providers: [FormBuilder],
 })
 export class FormComponent implements OnChanges {
-  _fields: IrFormConfig[] = [];
-
-  @Input()
-  form: FormGroup;
-
   @Input()
   get fields(): IrFormConfig[] {
     return this._fields || [];
@@ -40,36 +30,35 @@ export class FormComponent implements OnChanges {
     this._fields = value;
   }
 
+  @Input() form: FormGroup;
+  private _fields: IrFormConfig[];
+
   constructor(private fb: FormBuilder) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.fields) {
-      this.MountForm();
+      this.mountForm();
     }
   }
 
-  MountForm(): void {
+  public mountForm(): void {
     this.form = this.form || new FormGroup({});
-    this.FieldsToFormControls(this.fields);
   }
 
-  FieldsToFormControls(fields: IrFormConfig[]): void {
-    fields.forEach((field) => {
-      if (field.key && !this.form.controls[field.key]) {
-        this.form.addControl(
-          field.key,
-          this.fb.control(field.value || '', this.GetValidatorns(field))
-        );
-      }
-      if (field.children) {
-        this.FieldsToFormControls(field.children);
-      }
-    });
+  public getGridOptionsApi(key: string) {
+    const field = this.getFieldByKey(key);
+    if (!field.gridOptions) {
+      throw new Error('gridOptions: Undefined or False');
+    }
+    if (!field.gridOptions.api) {
+      throw new Error('api: Undefined or False');
+    }
+    return field.gridOptions.api;
   }
 
-  public getFieldByKey(key: string): IrFormConfig | null {
-    let fieldFind = null;
-    const selectByKey = (field: IrFormConfig[]): IrFormConfig | null =>
+  public getFieldByKey(key: string): IrFormConfig | undefined {
+    let fieldFind;
+    const selectByKey = (field: IrFormConfig[]) =>
       field.find((fl) => {
         if (fl.key === key) {
           fieldFind = fl;
@@ -82,29 +71,17 @@ export class FormComponent implements OnChanges {
     return fieldFind;
   }
 
+  public setFieldSelectOptionsData(key: string, data: any[]) {
+    const field = this.getFieldByKey(key);
+    field.selectOptions.data = data;
+  }
+
   public getFormControlByKey(key: string): AbstractControl {
     return this.form.get(key);
   }
 
-  GetValidatorns(fields: IrFormConfig): ValidatorFn[] {
-    const validators = [];
-    if (fields.fieldOptions) {
-      if (fields.fieldOptions.required) {
-        validators.push(Validators.required);
-      }
-      if (fields.fieldOptions.maxLengh >= 0) {
-        validators.push(Validators.maxLength(fields.fieldOptions.maxLengh));
-      }
-      if (fields.fieldOptions.minLengh >= 0) {
-        validators.push(Validators.minLength(fields.fieldOptions.minLengh));
-      }
-      if (fields.fieldOptions.max >= 0) {
-        validators.push(Validators.max(fields.fieldOptions.max));
-      }
-      if (fields.fieldOptions.min >= 0) {
-        validators.push(Validators.min(fields.fieldOptions.min));
-      }
-    }
-    return validators;
+  public setFormFieldValue(key: string, value: any) {
+    const formField = this.getFormControlByKey(key);
+    formField.setValue(value);
   }
 }
