@@ -30,5 +30,10 @@ module.exports = {
     ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
     sourceType: 'module', // Allows for the use of imports
   },
-  rules: {},
+  rules: {
+    '@typescript-eslint/interface-name-prefix': 0,
+    '@typescript-eslint/no-empty-function': 0,
+    '@typescript-eslint/no-use-before-define': 0,
+    '@typescript-eslint/no-explicit-any': 0,
+  },
 };
