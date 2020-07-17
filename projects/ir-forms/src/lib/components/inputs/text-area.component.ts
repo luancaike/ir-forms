@@ -10,7 +10,7 @@ import { IrBaseComponents } from './components.base';
           options.fieldOptions.label || ''
         }}</label>
         <textarea
-          [class.is-invalid]="CheckIsInvalid()"
+          [class.is-invalid]="checkIsInvalid()"
           [rows]="options.fieldOptions.rows || 5"
           class="form-control"
           [formControlName]="options.key || null"

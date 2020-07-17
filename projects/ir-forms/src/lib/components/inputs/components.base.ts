@@ -1,5 +1,6 @@
+import { SimpleChanges } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
-import { Input } from '@angular/core';
+import { Input, OnChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { interval } from 'rxjs';
 import { debounce } from 'rxjs/operators';
@@ -9,25 +10,25 @@ export interface IrComponents {
   formRoot: FormGroup;
   formControl: AbstractControl;
   options: IrFormConfig;
+  deps;
 
-  Redraw(): void;
+  redraw(): void;
 
-  ObserverValue(): void;
+  ngOnChanges(changes: SimpleChanges): void;
+
+  observerValue(): void;
 }
 
-export abstract class IrBaseComponents implements IrComponents {
+export abstract class IrBaseComponents implements IrComponents, OnChanges {
   @Input() formRoot: FormGroup;
   @Input() options: IrFormConfig;
+  @Input() deps;
 
-  get formControl(): AbstractControl {
+  get formControl() {
     return this.formRoot.controls[this.options.key];
   }
 
-  Redraw(): void {
-    // Void
-  }
-
-  CheckIsInvalid(): boolean {
+  checkIsInvalid(): boolean {
     if (!(this.options.key || this.formRoot.controls)) {
       return false;
     }
@@ -35,7 +36,21 @@ export abstract class IrBaseComponents implements IrComponents {
     return control && control.invalid && (control.dirty || control.touched);
   }
 
-  ObserverValue(): void {
+  getTextSelectOption(item: any) {
+    let itemText = item[this.options.selectOptions.keyText || 'text'];
+    const itemId = item[this.options.selectOptions.keyId || 'id'];
+    const itemAliasses = this.options.selectOptions.aliases || '';
+    if (this.options.selectOptions.groupIdText) {
+      itemText = `${itemAliasses}${itemId} - ${itemText}`;
+    }
+    return itemText;
+  }
+
+  getDescSelectOption(item: any) {
+    return item[this.options.selectOptions.keyDesc || 'desc'];
+  }
+
+  observerValue(): void {
     const control = this.formRoot.controls[this.options.key];
     if (!control) {
       return;
@@ -48,4 +63,8 @@ export abstract class IrBaseComponents implements IrComponents {
         }
       });
   }
+
+  ngOnChanges(changes: SimpleChanges): void {}
+
+  redraw(): void {}
 }

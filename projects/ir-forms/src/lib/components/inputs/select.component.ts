@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IrBaseComponents } from './components.base';
 
 @Component({
@@ -20,7 +20,15 @@ import { IrBaseComponents } from './components.base';
           [id]="options.key"
           [attr.disabled]="options.fieldOptions.disabled ? '' : null"
         >
-          <option value="" disabled selected>Selecione uma Opção</option>
+          <option [ngValue]="null" disabled selected hidden>{{
+            deps.filter.translate('common.selecione_uma_opcao')
+          }}</option>
+          <option [ngValue]="''" disabled selected hidden>{{
+            deps.filter.translate('common.selecione_uma_opcao')
+          }}</option>
+          <option [ngValue]="undefined" disabled selected hidden>{{
+            deps.filter.translate('common.selecione_uma_opcao')
+          }}</option>
           <option
             *ngFor="let item of optionsData"
             [ngValue]="
@@ -31,7 +39,7 @@ import { IrBaseComponents } from './components.base';
                 : item
             "
           >
-            {{ item[options.selectOptions.keyText || 'text'] }}
+            {{ getTextSelectOption(item) }}
           </option>
         </select>
         <ir-input-validator
@@ -43,11 +51,11 @@ import { IrBaseComponents } from './components.base';
   styles: [],
 })
 export class IrSelectComponent extends IrBaseComponents implements OnInit {
-  get optionsData(): any[] {
+  get optionsData() {
     return this.options.selectOptions.data || [];
   }
 
   ngOnInit(): void {
-    this.ObserverValue();
+    this.observerValue();
   }
 }

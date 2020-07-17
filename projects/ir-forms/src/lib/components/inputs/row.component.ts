@@ -18,8 +18,4 @@ import { IrBaseComponents } from './components.base';
   `,
   styles: [],
 })
-export class IrRowComponent extends IrBaseComponents implements OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('IrRowComponent', changes);
-  }
-}
+export class IrRowComponent extends IrBaseComponents {}

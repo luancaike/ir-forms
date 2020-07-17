@@ -10,7 +10,7 @@ import { IrBaseComponents } from './components.base';
           options.fieldOptions.label || ''
         }}</label>
         <input
-          [class.is-invalid]="CheckIsInvalid()"
+          [class.is-invalid]="checkIsInvalid()"
           [type]="options.fieldOptions.typeInput || 'text'"
           class="form-control"
           [formControlName]="options.key"
